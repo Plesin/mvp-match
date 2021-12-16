@@ -9,6 +9,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import DatePicker from '@mui/lab/DatePicker'
 import { useState } from 'react'
+import { format } from 'date-fns'
 
 const ALL_PROJECTS = 'all-projects'
 const ALL_GATEWAYS = 'all-gateways'
@@ -27,24 +28,43 @@ const datePickerStyles = {
   },
 }
 
-function Actions({ projects, gateways }) {
+function Actions({ projects, gateways, onSubmit }) {
   const [selectedProject, setSelectedProject] = useState(ALL_PROJECTS)
   const [selectedGateway, setSelectedGateway] = useState(ALL_GATEWAYS)
-  const [fromDate, setFromDate] = useState('')
-  const [toDate, setToDate] = useState('')
+  const [fromDate, setFromDate] = useState(null)
+  const [toDate, setToDate] = useState(null)
+
+  const generateReport = () => {
+    if (!fromDate && !toDate) {
+      // alert('Please select date range')
+    }
+    const payload = {
+      from: fromDate,
+      to: toDate,
+      projectId: selectedProject,
+      gatewayId: selectedGateway,
+    }
+    if (selectedProject === ALL_PROJECTS) {
+      delete payload.projectId
+    }
+    if (selectedGateway === ALL_GATEWAYS) {
+      delete payload.gatewayId
+    }
+    onSubmit(payload)
+  }
 
   const handleChange = (event) => {
     const {
       target: { value },
     } = event
-    setSelectedProject(typeof value === 'string' ? value.split(',') : value)
+    setSelectedProject(value)
   }
 
   const handleChange1 = (event) => {
     const {
       target: { value },
     } = event
-    setSelectedGateway(typeof value === 'string' ? value.split(',') : value)
+    setSelectedGateway(value)
   }
 
   return (
@@ -113,7 +133,9 @@ function Actions({ projects, gateways }) {
               label="From Date"
               value={fromDate}
               onChange={(val) => {
-                setFromDate(val)
+                const formated = format(val, 'yyyy-MM-dd')
+                console.log(formated)
+                setFromDate(formated)
               }}
               renderInput={(params) => (
                 <TextField {...params} sx={datePickerStyles} />
@@ -127,7 +149,9 @@ function Actions({ projects, gateways }) {
               label="To Date"
               value={toDate}
               onChange={(val) => {
-                setToDate(val)
+                const formated = format(val, 'yyyy-MM-dd')
+                console.log(formated)
+                setToDate(formated)
               }}
               renderInput={(params) => (
                 <TextField {...params} sx={datePickerStyles} />
@@ -136,7 +160,9 @@ function Actions({ projects, gateways }) {
           </LocalizationProvider>
         </FormControl>
         <FormControl>
-          <Button variant="contained">Generate Report</Button>
+          <Button variant="contained" onClick={generateReport}>
+            Generate Report
+          </Button>
         </FormControl>
       </Grid>
     </Grid>

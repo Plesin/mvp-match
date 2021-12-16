@@ -38,6 +38,19 @@ export default function Home() {
       })
   }, [])
 
+  const getReport = async (payload) => {
+    const resp = await fetch(`${apiBase}report`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+    const report = await resp.json()
+    console.log(report)
+  }
+
   return (
     <>
       <div className={styles.container}>
@@ -52,7 +65,11 @@ export default function Home() {
             <Menu />
           </Grid>
           <Grid item xs={15} sx={{ padding: '36px 24px' }}>
-            <Actions projects={projects} gateways={gateways} />
+            <Actions
+              projects={projects}
+              gateways={gateways}
+              onSubmit={getReport}
+            />
           </Grid>
         </Grid>
       </main>
