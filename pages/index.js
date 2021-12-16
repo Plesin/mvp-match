@@ -1,14 +1,20 @@
 import Head from 'next/head'
 import { useState, useEffect } from 'react'
+import Grid from '@mui/material/Grid'
 
 import Header from '../components/Header'
 import Menu from '../components/Menu'
+import Actions from '../components/Actions'
 import styles from '../styles/Home.module.css'
+
+const apiBase = 'http://178.63.13.157:8090/mock-api/api/'
 
 export default function Home() {
   const [user, setUser] = useState(null)
+  const [projects, setProjects] = useState([])
+  const [gateways, setGateways] = useState([])
   useEffect(() => {
-    fetch('http://178.63.13.157:8090/mock-api/api/users')
+    fetch(`${apiBase}users`)
       .then((res) => res.json())
       .then((json) => {
         const loggedUser = json.data[0]
@@ -17,6 +23,18 @@ export default function Home() {
         } else {
           console.error('No logged in user')
         }
+      })
+
+    fetch(`${apiBase}projects`)
+      .then((res) => res.json())
+      .then((json) => {
+        setProjects(json.data)
+      })
+
+    fetch(`${apiBase}gateways`)
+      .then((res) => res.json())
+      .then((json) => {
+        setGateways(json.data)
       })
   }, [])
 
@@ -29,7 +47,14 @@ export default function Home() {
       </div>
       <main>
         <Header user={user} />
-        <Menu />
+        <Grid container columns={16}>
+          <Grid item xs={1}>
+            <Menu />
+          </Grid>
+          <Grid item xs={15} sx={{ padding: '36px 24px' }}>
+            <Actions projects={projects} gateways={gateways} />
+          </Grid>
+        </Grid>
       </main>
     </>
   )
