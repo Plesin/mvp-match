@@ -1,7 +1,6 @@
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import Image from 'next/image'
-import logo from '../../public/icons/logo.svg'
 import menu1 from '../../public/icons/menu1.svg'
 import menu2 from '../../public/icons/menu2.svg'
 import menu3 from '../../public/icons/menu3.svg'

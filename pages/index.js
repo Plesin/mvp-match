@@ -5,6 +5,7 @@ import Grid from '@mui/material/Grid'
 import Header from '../components/Header'
 import Menu from '../components/Menu'
 import Actions from '../components/Actions'
+import Report from '../components/Report'
 import styles from '../styles/Home.module.css'
 
 const apiBase = 'http://178.63.13.157:8090/mock-api/api/'
@@ -13,6 +14,9 @@ export default function Home() {
   const [user, setUser] = useState(null)
   const [projects, setProjects] = useState([])
   const [gateways, setGateways] = useState([])
+  const [report, setReport] = useState([])
+  const [filter, setFilter] = useState({})
+
   useEffect(() => {
     fetch(`${apiBase}users`)
       .then((res) => res.json())
@@ -47,8 +51,9 @@ export default function Home() {
       },
       body: JSON.stringify(payload),
     })
-    const report = await resp.json()
-    console.log(report)
+    const json = await resp.json()
+    setReport(json.data)
+    setFilter(payload)
   }
 
   return (
@@ -69,6 +74,12 @@ export default function Home() {
               projects={projects}
               gateways={gateways}
               onSubmit={getReport}
+            />
+            <Report
+              projects={projects}
+              gateways={gateways}
+              report={report}
+              filter={filter}
             />
           </Grid>
         </Grid>
