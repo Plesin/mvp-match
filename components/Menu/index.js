@@ -12,9 +12,6 @@ function Menu() {
   return (
     <Box
       sx={{
-        position: 'sticky',
-        left: 0,
-        top: 0,
         width: '100px',
         height: '100vh',
         flexFlow: 'column wrap',
