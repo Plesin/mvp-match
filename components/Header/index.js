@@ -9,6 +9,11 @@ import logo from '../../public/icons/logo.svg'
 import hamburger from '../../public/icons/hamburger.svg'
 
 const getInitials = (user) => {
+  if (!user) {
+    console.warn('No user param provided')
+    return ''
+  }
+
   const { firstName, lastName } = user
   const first = [...firstName][0]
   const last = [...lastName][0]
@@ -26,8 +31,13 @@ function Header({ user }) {
       }}
     >
       <Grid container spacing={2} columns={16}>
-        <Grid item xs={8} sx={{ display: 'inline-flex' }} alignItems="center">
-          <IconButton aria-label="Home icon">
+        <Grid
+          item
+          xs={8}
+          sx={{ display: 'inline-flex', paddingLeft: 0 }}
+          alignItems="center"
+        >
+          <IconButton aria-label="Home icon" sx={{ marginRight: '38px' }}>
             <Image src={logo} alt="company logo" />
           </IconButton>
           <IconButton aria-label="menu icon">
@@ -41,15 +51,19 @@ function Header({ user }) {
           justifyContent="end"
           alignItems="center"
         >
-          <Avatar sx={{ bgcolor: '#F6CA65', borderRadius: '5px' }}>
-            {initials}
-          </Avatar>
-          <Typography
-            variant="subtitle1"
-            sx={{ color: '#005B96', paddingLeft: '11px' }}
-          >
-            {user.firstName} {user.lastName}
-          </Typography>
+          {user && (
+            <>
+              <Avatar sx={{ bgcolor: '#F6CA65', borderRadius: '5px' }}>
+                {initials}
+              </Avatar>
+              <Typography
+                variant="subtitle1"
+                sx={{ color: '#005B96', paddingLeft: '11px' }}
+              >
+                {user.firstName} {user.lastName}
+              </Typography>
+            </>
+          )}
         </Grid>
       </Grid>
     </Box>
