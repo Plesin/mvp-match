@@ -70,7 +70,7 @@ function Actions({ projects, gateways, onSubmit }) {
   return (
     <Grid container columns={16}>
       <Grid item xs={4}>
-        <Typography variant="h3" sx={{ display: 'block' }}>
+        <Typography variant="h5" sx={{ display: 'block' }}>
           Reports
         </Typography>
         <Typography variant="hsubtitle1" sx={{ color: '#7E8299' }}>
@@ -82,6 +82,7 @@ function Actions({ projects, gateways, onSubmit }) {
         xs={12}
         sx={{ display: 'inline-flex', paddingLeft: 0, gap: '23px' }}
         alignItems="center"
+        justifyContent="end"
       >
         <FormControl>
           <Select
