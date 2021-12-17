@@ -18,13 +18,24 @@ const datePickerStyles = {
     backgroundColor: '#1BC5BD',
     color: 'white',
     borderRadius: '5px',
-    padding: '8px 13px',
+    padding: '5px 8px',
     width: '80px',
   },
-  button: {
-    backgroundColor: '#1BC5BD',
-    borderRadius: 0,
+  label: {
     color: 'white',
+    top: '-10px',
+  },
+  button: {
+    borderRadius: 0,
+    border: 'none',
+    color: 'white',
+  },
+  '&.MuiFormControl-root': {
+    backgroundColor: '#1BC5BD',
+    borderRadius: '5px',
+  },
+  fieldset: {
+    border: 'none',
   },
 }
 
@@ -35,8 +46,8 @@ const selectStyles = {
   color: 'white',
   borderRadius: '5px',
   padding: '8px 13px',
-  icon: {
-    fill: 'white',
+  '& .MuiSvgIcon-root': {
+    color: 'white',
   },
 }
 
@@ -145,6 +156,7 @@ function Actions({ projects, gateways, onSubmit }) {
               renderInput={(params) => (
                 <TextField {...params} sx={datePickerStyles} />
               )}
+              inputFormat="dd/MM/yy"
             />
           </LocalizationProvider>
         </FormControl>
@@ -161,6 +173,7 @@ function Actions({ projects, gateways, onSubmit }) {
               renderInput={(params) => (
                 <TextField {...params} sx={datePickerStyles} />
               )}
+              inputFormat="dd/MM/yy"
             />
           </LocalizationProvider>
         </FormControl>
