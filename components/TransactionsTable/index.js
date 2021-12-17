@@ -30,7 +30,7 @@ function TransactionsTable({ rows }) {
                 '&:nth-child(even)': { backgroundColor: 'white' },
               }}
             >
-              <TableCell align="left">{row.modified}</TableCell>
+              <TableCell align="left">{row.created}</TableCell>
               <TableCell align="left">{row.paymentId}</TableCell>
               <TableCell align="right">{row.amount} USD</TableCell>
             </TableRow>
