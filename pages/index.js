@@ -1,6 +1,8 @@
 import Head from 'next/head'
 import { useState, useEffect } from 'react'
 import Grid from '@mui/material/Grid'
+import Stack from '@mui/material/Stack'
+import CircularProgress from '@mui/material/CircularProgress'
 
 import Header from '../components/Header'
 import Menu from '../components/Menu'
@@ -16,6 +18,7 @@ export default function Home() {
   const [gateways, setGateways] = useState([])
   const [report, setReport] = useState([])
   const [filter, setFilter] = useState({})
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     fetch(`${apiBase}users`)
@@ -43,6 +46,7 @@ export default function Home() {
   }, [])
 
   const getReport = async (payload) => {
+    setLoading(true)
     const resp = await fetch(`${apiBase}report`, {
       method: 'POST',
       headers: {
@@ -52,6 +56,7 @@ export default function Home() {
       body: JSON.stringify(payload),
     })
     const json = await resp.json()
+    setLoading(false)
     setReport(json.data)
     setFilter(payload)
   }
@@ -75,12 +80,22 @@ export default function Home() {
               gateways={gateways}
               onSubmit={getReport}
             />
-            <Report
-              projects={projects}
-              gateways={gateways}
-              report={report}
-              filter={filter}
-            />
+            {loading ? (
+              <Stack alignItems="center">
+                <CircularProgress
+                  size="100px"
+                  thickness="1"
+                  sx={{ mt: '10%' }}
+                />
+              </Stack>
+            ) : (
+              <Report
+                projects={projects}
+                gateways={gateways}
+                report={report}
+                filter={filter}
+              />
+            )}
           </Grid>
         </Grid>
       </main>

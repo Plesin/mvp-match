@@ -27,8 +27,8 @@ function AccordionTable({ rows }) {
               key={row.paymentId}
               sx={{
                 '& td': { border: 0, padding: '8px' },
-                '&:nth-child(odd)': { backgroundColor: '#F1FAFE' },
-                '&:nth-child(even)': { backgroundColor: 'white' },
+                '&:nth-of-type(odd)': { backgroundColor: '#F1FAFE' },
+                '&:nth-of-type(even)': { backgroundColor: 'white' },
               }}
             >
               <TableCell align="left">{row.created}</TableCell>

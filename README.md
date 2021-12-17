@@ -11,3 +11,11 @@ yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## TODOs
+
+1. useReducer hook or redux for state
+2. data normalization after load, currenlty in some components
+3. global theme overrides for MUI components
+4. Table could be a single generic component
+5. Error handling for api calls
