@@ -1,6 +1,7 @@
 import NoResults from '../NoResults'
 import SimpleTable from '../SimpleTable'
 import ChartReport from '../ChartReport'
+import AccordionResults from '../AccordionResults'
 
 function Report({ projects, gateways, report, filter }) {
   const { projectId, gatewayId } = filter
@@ -11,11 +12,16 @@ function Report({ projects, gateways, report, filter }) {
 
   if (!report.length) {
     return <NoResults />
+  } else if (!projectId && !gatewayId) {
+    // All Projects All Gateways case
+    return <AccordionResults report={report} projects={projects} />
   } else if (projectId && gatewayId) {
+    // Selected Project and Selected Gateway case
     const project = projects.filter((p) => p.projectId === projectId)[0]
     const gateway = gateways.filter((g) => g.gatewayId === gatewayId)[0]
     return <SimpleTable rows={report} project={project} gateway={gateway} />
   } else if ((projectId && !gatewayId) || (!projectId && gatewayId)) {
+    // Ether selected Project or Selected Gateway case
     return (
       <ChartReport
         report={report}
@@ -26,7 +32,7 @@ function Report({ projects, gateways, report, filter }) {
       />
     )
   } else {
-    return <p>ALL</p>
+    return <p>Something went wrong, incorrect data passed to Report</p>
   }
 }
 

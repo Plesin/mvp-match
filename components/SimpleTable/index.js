@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography'
 import Paper from '@mui/material/Paper'
 import { formatter } from '../../utils/formater'
 
+// TODO - shared in multiple files, reuse
 const paperStyles = {
   backgroundColor: '#F1FAFE',
   borderRadius: '10px',
