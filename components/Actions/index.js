@@ -28,6 +28,18 @@ const datePickerStyles = {
   },
 }
 
+const selectStyles = {
+  height: '32px',
+  width: '150px',
+  backgroundColor: '#1BC5BD',
+  color: 'white',
+  borderRadius: '5px',
+  padding: '8px 13px',
+  icon: {
+    fill: 'white',
+  },
+}
+
 function Actions({ projects, gateways, onSubmit }) {
   const [selectedProject, setSelectedProject] = useState(ALL_PROJECTS)
   const [selectedGateway, setSelectedGateway] = useState(ALL_GATEWAYS)
@@ -89,12 +101,8 @@ function Actions({ projects, gateways, onSubmit }) {
             variant="standard"
             value={selectedProject}
             onChange={handleChange}
-            sx={{
-              backgroundColor: '#1BC5BD',
-              color: 'white',
-              borderRadius: '5px',
-              padding: '8px 13px',
-            }}
+            disableUnderline
+            sx={selectStyles}
           >
             <MenuItem key={ALL_PROJECTS} value={ALL_PROJECTS}>
               All Projects
@@ -111,12 +119,8 @@ function Actions({ projects, gateways, onSubmit }) {
             variant="standard"
             value={selectedGateway}
             onChange={handleChange1}
-            sx={{
-              backgroundColor: '#1BC5BD',
-              color: 'white',
-              borderRadius: '5px',
-              padding: '8px 13px',
-            }}
+            disableUnderline
+            sx={selectStyles}
           >
             <MenuItem key={ALL_GATEWAYS} value={ALL_GATEWAYS}>
               All Gateways
