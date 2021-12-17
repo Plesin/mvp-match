@@ -9,6 +9,7 @@ import { Chart, PieSeries, Title } from '@devexpress/dx-react-chart-material-ui'
 import groupBy from 'lodash.groupby'
 import mapKeys from 'lodash.mapKeys'
 import { formatter } from '../../utils/formater'
+import { getTotal } from '../../utils'
 
 import TransactionsTable from '../TransactionsTable'
 
@@ -18,14 +19,6 @@ const paperStyles = {
   boxShadow: 'none',
   padding: '19px',
   marginTop: '27px',
-}
-
-const getTotal = (payments = [], formated) => {
-  const total = payments.reduce((a, b) => a + b.amount, 0)
-  if (formated) {
-    return formatter.format(total)
-  }
-  return total
 }
 
 const getChartData = (gateways, report) => {
