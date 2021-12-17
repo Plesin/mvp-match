@@ -5,6 +5,7 @@ import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
+import { Chart, PieSeries, Title } from '@devexpress/dx-react-chart-material-ui'
 import groupBy from 'lodash.groupby'
 import mapKeys from 'lodash.mapKeys'
 import { formatter } from '../../utils/formater'
@@ -19,9 +20,18 @@ const paperStyles = {
   marginTop: '27px',
 }
 
-const getTotal = (payments = []) => {
+const getTotal = (payments = [], formated) => {
   const total = payments.reduce((a, b) => a + b.amount, 0)
-  return formatter.format(total)
+  if (formated) {
+    return formatter.format(total)
+  }
+  return total
+}
+
+const getChartData = (gateways, report) => {
+  return Object.keys(gateways).map((key) => {
+    return { name: gateways[key].name, amount: getTotal(report[key], false) }
+  })
 }
 
 const ProjectReport = (props) => {
@@ -31,10 +41,10 @@ const ProjectReport = (props) => {
   }
   const { report, projects, projectId, gateways, gatewayId } = props
   const groupedReport = groupBy(report, 'gatewayId')
-  console.log(groupedReport)
   // TODO - do this ones loaded
   const normalizedGateways = mapKeys(gateways, 'gatewayId')
-  console.log(normalizedGateways)
+  const chartData = getChartData(normalizedGateways, groupedReport)
+  console.log(chartData)
 
   return (
     <Grid container columns={16}>
@@ -62,7 +72,7 @@ const ProjectReport = (props) => {
                 >
                   <Typography sx={{ flexGrow: 1 }}>{name}</Typography>
                   <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-                    TOTAL: {getTotal(payments)}
+                    TOTAL: {getTotal(payments, true)}
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -74,7 +84,19 @@ const ProjectReport = (props) => {
         </Paper>
       </Grid>
       <Grid item xs={8}>
-        Chart
+        <Paper sx={paperStyles}>{}</Paper>
+        <Chart data={chartData}>
+          <PieSeries
+            valueField="amount"
+            argumentField="name"
+            innerRadius={0.6}
+          />
+        </Chart>
+        <Paper sx={paperStyles}>
+          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+            PROJECT TOTAL | {formatter.format(getTotal(chartData))}
+          </Typography>
+        </Paper>
       </Grid>
     </Grid>
   )
@@ -82,7 +104,6 @@ const ProjectReport = (props) => {
 
 const GatewayReport = (props) => {
   const { report, projects, projectId, gateways, gatewayId } = props
-  console.log(report)
   return (
     <Grid container columns={16}>
       <Grid item xs={8}>
