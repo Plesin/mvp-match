@@ -5,13 +5,11 @@ import Stack from '@mui/material/Stack'
 import CircularProgress from '@mui/material/CircularProgress'
 
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 import Menu from '../components/Menu'
 import Actions from '../components/Actions'
 import Report from '../components/Report'
-import styles from '../styles/Home.module.css'
 import api from '../utils/api'
-
-const API_BASE = 'http://178.63.13.157:8090/mock-api/api/'
 
 export default function Home() {
   const [user, setUser] = useState(null)
@@ -48,7 +46,7 @@ export default function Home() {
 
   return (
     <>
-      <div className={styles.container}>
+      <div>
         <Head>
           <title>MVP Match Test</title>
         </Head>
@@ -83,6 +81,7 @@ export default function Home() {
             )}
           </Grid>
         </Grid>
+        <Footer />
       </main>
     </>
   )

@@ -12,7 +12,7 @@ function Menu() {
     <Box
       sx={{
         width: '100px',
-        height: '100vh',
+        height: 'calc(100vh - 180px)',
         flexFlow: 'column wrap',
         textAlign: 'center',
         marginTop: '35px',
