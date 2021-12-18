@@ -9,8 +9,9 @@ import Menu from '../components/Menu'
 import Actions from '../components/Actions'
 import Report from '../components/Report'
 import styles from '../styles/Home.module.css'
+import api from '../utils/api'
 
-const apiBase = 'http://178.63.13.157:8090/mock-api/api/'
+const API_BASE = 'http://178.63.13.157:8090/mock-api/api/'
 
 export default function Home() {
   const [user, setUser] = useState(null)
@@ -21,43 +22,27 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    fetch(`${apiBase}users`)
-      .then((res) => res.json())
-      .then((json) => {
-        const loggedUser = json.data[0]
-        if (loggedUser) {
-          setUser(loggedUser)
-        } else {
-          console.error('No logged in user')
-        }
-      })
+    api('users').then(
+      (response) => setUser(response.data[0]),
+      (error) => console.log('api error', error)
+    )
 
-    fetch(`${apiBase}projects`)
-      .then((res) => res.json())
-      .then((json) => {
-        setProjects(json.data)
-      })
+    api('projects').then(
+      (response) => setProjects(response.data),
+      (error) => console.log('api error', error)
+    )
 
-    fetch(`${apiBase}gateways`)
-      .then((res) => res.json())
-      .then((json) => {
-        setGateways(json.data)
-      })
+    api('gateways').then(
+      (response) => setGateways(response.data),
+      (error) => console.log('api error', error)
+    )
   }, [])
 
   const getReport = async (payload) => {
     setLoading(true)
-    const resp = await fetch(`${apiBase}report`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    })
-    const json = await resp.json()
+    const response = await api('report', { body: payload })
     setLoading(false)
-    setReport(json.data)
+    setReport(response.data)
     setFilter(payload)
   }
 
@@ -84,7 +69,7 @@ export default function Home() {
               <Stack alignItems="center">
                 <CircularProgress
                   size="100px"
-                  thickness="1"
+                  thickness={1}
                   sx={{ mt: '10%' }}
                 />
               </Stack>

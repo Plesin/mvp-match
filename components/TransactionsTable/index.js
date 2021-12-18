@@ -5,17 +5,18 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 
-// TODO - this could be reused
-function TransactionsTable({ rows }) {
+function TransactionsTable({ rows, gatewayType }) {
+  const minWidth = gatewayType ? 'auto' : 650
   return (
     <TableContainer>
       <Table
-        sx={{ '& th': { border: 0, padding: '8px' } }}
-        aria-label="simple table"
+        sx={{ minWidth, '& th': { border: 0, padding: '8px' } }}
+        aria-label="transations table"
       >
         <TableHead>
           <TableRow sx={{ backgroundColor: 'white' }}>
             <TableCell>Date</TableCell>
+            {gatewayType && <TableCell>Gateway ID</TableCell>}
             <TableCell>Transaction ID</TableCell>
             <TableCell align="right">Amount</TableCell>
           </TableRow>
@@ -31,6 +32,9 @@ function TransactionsTable({ rows }) {
               }}
             >
               <TableCell align="left">{row.created}</TableCell>
+              {gatewayType && (
+                <TableCell align="left">{row.gatewayId}</TableCell>
+              )}
               <TableCell align="left">{row.paymentId}</TableCell>
               <TableCell align="right">{row.amount} USD</TableCell>
             </TableRow>

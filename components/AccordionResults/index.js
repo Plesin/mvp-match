@@ -7,7 +7,7 @@ import Paper from '@mui/material/Paper'
 import { getTotal } from '../../utils'
 import groupBy from 'lodash.groupby'
 import mapKeys from 'lodash.mapKeys'
-import AccordionTable from '../AccordionTable'
+import TransactionsTable from '../TransactionsTable'
 
 const paperStyles = {
   backgroundColor: '#F1FAFE',
@@ -53,15 +53,20 @@ function AccordionResults({ report, projects }) {
               >
                 <Typography sx={{ flexGrow: 1 }}>{name}</Typography>
                 <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-                  TOTAL: {getTotal(payments, true)}
+                  TOTAL: {getTotal(payments, true)} USD
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <AccordionTable rows={payments} />
+                <TransactionsTable rows={payments} gatewayType />
               </AccordionDetails>
             </Accordion>
           )
         })}
+      </Paper>
+      <Paper sx={paperStyles}>
+        <Typography variant="h6">
+          Total: {getTotal(report, true)} USD
+        </Typography>
       </Paper>
     </>
   )
