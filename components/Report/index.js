@@ -1,5 +1,5 @@
 import NoResults from '../NoResults'
-import SimpleTable from '../SimpleTable'
+import TableReport from '../TableReport'
 import ChartReport from '../ChartReport'
 import AccordionResults from '../AccordionResults'
 
@@ -19,7 +19,7 @@ function Report({ projects, gateways, report, filter }) {
     // Selected Project and Selected Gateway case
     const project = projects.filter((p) => p.projectId === projectId)[0]
     const gateway = gateways.filter((g) => g.gatewayId === gatewayId)[0]
-    return <SimpleTable rows={report} project={project} gateway={gateway} />
+    return <TableReport rows={report} project={project} gateway={gateway} />
   } else if ((projectId && !gatewayId) || (!projectId && gatewayId)) {
     // Ether selected Project or Selected Gateway case
     return (

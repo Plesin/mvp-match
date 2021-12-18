@@ -157,6 +157,7 @@ function Actions({ projects, gateways, onSubmit }) {
                 <TextField {...params} sx={datePickerStyles} />
               )}
               inputFormat="dd/MM/yy"
+              mask="mm"
             />
           </LocalizationProvider>
         </FormControl>
@@ -174,11 +175,21 @@ function Actions({ projects, gateways, onSubmit }) {
                 <TextField {...params} sx={datePickerStyles} />
               )}
               inputFormat="dd/MM/yy"
+              mask="mm"
             />
           </LocalizationProvider>
         </FormControl>
         <FormControl>
-          <Button variant="contained" onClick={generateReport}>
+          <Button
+            variant="contained"
+            onClick={generateReport}
+            sx={{
+              boxShadow: 'none',
+              textTransform: 'capitalize',
+              backgroundColor: '#005B96',
+              padding: '5px 16px',
+            }}
+          >
             Generate Report
           </Button>
         </FormControl>

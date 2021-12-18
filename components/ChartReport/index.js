@@ -40,8 +40,8 @@ const ProjectReport = (props) => {
   console.log(chartData)
 
   return (
-    <Grid container columns={16}>
-      <Grid item xs={8}>
+    <Grid container columns={16} spacing={3}>
+      <Grid item xs={9}>
         <Paper sx={paperStyles}>
           {Object.keys(groupedReport).map((key) => {
             const name = normalizedGateways[key].name
@@ -65,7 +65,7 @@ const ProjectReport = (props) => {
                 >
                   <Typography sx={{ flexGrow: 1 }}>{name}</Typography>
                   <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-                    TOTAL: {getTotal(payments, true)}
+                    TOTAL: {getTotal(payments, true)} USD
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -76,7 +76,7 @@ const ProjectReport = (props) => {
           })}
         </Paper>
       </Grid>
-      <Grid item xs={8}>
+      <Grid item xs={7}>
         <Paper sx={paperStyles}>{}</Paper>
         <Chart data={chartData}>
           <PieSeries
@@ -87,7 +87,7 @@ const ProjectReport = (props) => {
         </Chart>
         <Paper sx={paperStyles}>
           <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-            PROJECT TOTAL | {formatter.format(getTotal(chartData))}
+            PROJECT TOTAL | {formatter.format(getTotal(chartData))} USD
           </Typography>
         </Paper>
       </Grid>
