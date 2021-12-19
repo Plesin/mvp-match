@@ -19,10 +19,10 @@ const getChartData = (gateways, report) => {
   const labels = []
   const colors = []
   const total = []
-  Object.keys(gateways).forEach((key) => {
-    labels.push(gateways[key].name)
+  gateways.allIds.forEach((key) => {
+    labels.push(gateways.byId[key].name)
     colors.push(getColor())
-    total.push(getTotal(report[key], false))
+    total.push(getTotal(report.byGatewayId[key], false))
   })
   return {
     labels,
@@ -37,15 +37,14 @@ const getChartData = (gateways, report) => {
 }
 
 const ProjectReport = (props) => {
+  const { report, gateways } = props
   const [expanded, setExpanded] = useState(false)
   const handleChange = (key) => (event, isExpanded) => {
     setExpanded(isExpanded ? key : false)
   }
-  const { report, gateways, gatewaysById } = props
-  const groupedReport = useMemo(() => groupBy(report, 'gatewayId'), [report])
   const chartData = useMemo(
-    () => getChartData(gatewaysById, groupedReport),
-    [gatewaysById, groupedReport]
+    () => getChartData(gateways, report),
+    [gateways, report]
   )
   const totals = chartData.datasets[0].data
   const projectTotal = totals ? totals.reduce((a, b) => a + b, 0) : 0
@@ -54,9 +53,9 @@ const ProjectReport = (props) => {
     <Grid container columns={16} spacing={3}>
       <Grid item xs={9}>
         <Paper sx={paperStyles}>
-          {Object.keys(groupedReport).map((key) => {
-            const name = gatewaysById[key].name
-            const payments = groupedReport[key]
+          {gateways.allIds.map((key) => {
+            const name = gateways.byId[key].name
+            const payments = report.byGatewayId[key]
             return (
               <Accordion
                 key={key}

@@ -8,7 +8,7 @@ import { getTotal } from '../../utils'
 import TransactionsTable from '../TransactionsTable'
 import { paperStyles } from '../../styles/globals'
 
-function AccordionResults({ report, groupedReport, projectsById }) {
+function AccordionResults({ report, projects }) {
   const [expanded, setExpanded] = useState(false)
   const handleChange = (key) => (event, isExpanded) => {
     setExpanded(isExpanded ? key : false)
@@ -20,9 +20,9 @@ function AccordionResults({ report, groupedReport, projectsById }) {
         <Typography variant="h6" sx={{ mb: '1.5rem' }}>
           All Projects | All Gateways
         </Typography>
-        {Object.keys(groupedReport).map((key) => {
-          const name = projectsById[key].name
-          const payments = groupedReport[key]
+        {projects.allIds.map((key) => {
+          const name = projects.byId[key].name
+          const payments = report.byProjectId[key]
           return (
             <Accordion
               key={key}
@@ -53,9 +53,7 @@ function AccordionResults({ report, groupedReport, projectsById }) {
         })}
       </Paper>
       <Paper sx={paperStyles}>
-        <Typography variant="h6">
-          Total: {getTotal(report, true)} USD
-        </Typography>
+        <Typography variant="h6">Total: {report.total} USD</Typography>
       </Paper>
     </>
   )

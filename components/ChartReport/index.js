@@ -3,7 +3,6 @@ import 'chart.js/auto'
 import ProjectReport from './ProjectReport'
 
 const GatewayReport = (props) => {
-  const { report, projects, projectId, gateways, gatewayId } = props
   return (
     <Grid container columns={16}>
       <Grid item xs={8}>
