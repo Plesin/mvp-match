@@ -26,7 +26,7 @@ function TransactionsTable({ rows, gatewayType }) {
             <TableRow
               key={row.paymentId}
               sx={{
-                '& td': { border: 0, padding: '8px' },
+                '& td': { border: 0, padding: '8px', fontSize: '1rem' },
                 '&:nth-of-type(odd)': { backgroundColor: '#F1FAFE' },
                 '&:nth-of-type(even)': { backgroundColor: 'white' },
               }}
@@ -35,7 +35,7 @@ function TransactionsTable({ rows, gatewayType }) {
               {gatewayType && (
                 <TableCell align="left">{row.gatewayId}</TableCell>
               )}
-              <TableCell align="left">{row.paymentId}</TableCell>
+              <TableCell align="left">{row.paymentId.slice(-5)}</TableCell>
               <TableCell align="right">{row.amount} USD</TableCell>
             </TableRow>
           ))}
