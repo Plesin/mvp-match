@@ -4,25 +4,35 @@ import TableReport from '../TableReport'
 import ChartReport from '../ChartReport'
 import AccordionResults from '../AccordionResults'
 
+const Toaster = ({ message }) => (
+  <Snackbar
+    anchorOrigin={{
+      vertical: 'top',
+      horizontal: 'center',
+    }}
+    open={true}
+    message={message}
+    sx={{
+      '& .MuiPaper-root': { backgroundColor: '#F6CA65', color: 'black' },
+    }}
+  />
+)
+
 function Report({ projects, gateways, report, filter }) {
   const { projectId, gatewayId, from, to } = filter
   const { byProjectId, byGatewayId } = report
   const hasResults =
     Object.keys(byProjectId).length || Object.keys(byGatewayId).length
 
+  if ((from && !to) || (!from && to)) {
+    return (
+      <Toaster message="Please select both From Date and To Date to filter reports by date." />
+    )
+  }
+
   if (!hasResults && (from || to)) {
     return (
-      <Snackbar
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-        open={true}
-        message="No results for the selected dates. Please try adjusting the date range."
-        sx={{
-          '& .MuiPaper-root': { backgroundColor: '#F6CA65', color: 'black' },
-        }}
-      />
+      <Toaster message="No results found for the selected dates. Please try adjusting the date range." />
     )
   }
 
