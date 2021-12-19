@@ -28,6 +28,7 @@ export default function Home() {
     projects,
     projectsById,
     gateways,
+    gatewaysById,
     report,
     groupedReport,
     filter,
@@ -53,8 +54,14 @@ export default function Home() {
     )
 
     api('gateways').then(
-      (response) =>
-        dispatch({ type: GATEWAYS_FETCH_SUCCESS, payload: response.data }),
+      (response) => {
+        const gateways = response.data
+        const gatewaysById = mapKeys(gateways, 'gatewayId')
+        dispatch({
+          type: GATEWAYS_FETCH_SUCCESS,
+          payload: { gateways, gatewaysById },
+        })
+      },
       (error) => console.log('api error', error)
     )
   }, [])
@@ -106,6 +113,7 @@ export default function Home() {
                 projects={projects}
                 projectsById={projectsById}
                 gateways={gateways}
+                gatewaysById={gatewaysById}
                 report={report}
                 groupedReport={groupedReport}
                 filter={filter}

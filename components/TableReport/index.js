@@ -2,15 +2,7 @@ import Typography from '@mui/material/Typography'
 import Paper from '@mui/material/Paper'
 import TransactionsTable from '../TransactionsTable'
 import { formatter } from '../../utils/formater'
-
-// TODO - shared in multiple files, reuse
-const paperStyles = {
-  backgroundColor: '#F1FAFE',
-  borderRadius: '10px',
-  boxShadow: 'none',
-  padding: '19px',
-  marginTop: '27px',
-}
+import { paperStyles } from '../../styles/globals'
 
 function TableReport({ rows, project, gateway }) {
   if (!rows) {

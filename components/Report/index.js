@@ -1,3 +1,4 @@
+import Snackbar from '@mui/material/Snackbar'
 import NoResults from '../NoResults'
 import TableReport from '../TableReport'
 import ChartReport from '../ChartReport'
@@ -7,14 +8,27 @@ function Report({
   projects,
   projectsById,
   gateways,
+  gatewaysById,
   report,
   groupedReport,
   filter,
 }) {
-  const { projectId, gatewayId } = filter
+  const { projectId, gatewayId, from, to } = filter
 
-  if (!report) {
-    return null
+  if (report && !report.length && (from || to)) {
+    return (
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+        open={true}
+        message="No results for the selected dates. Please try adjusting the date range."
+        sx={{
+          '& .MuiPaper-root': { backgroundColor: '#F6CA65', color: 'black' },
+        }}
+      />
+    )
   }
 
   if (!report.length) {
@@ -42,6 +56,7 @@ function Report({
         projectId={projectId}
         gateways={gateways}
         gatewayId={gatewayId}
+        gatewaysById={gatewaysById}
       />
     )
   } else {
