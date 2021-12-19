@@ -3,7 +3,14 @@ import TableReport from '../TableReport'
 import ChartReport from '../ChartReport'
 import AccordionResults from '../AccordionResults'
 
-function Report({ projects, gateways, report, filter }) {
+function Report({
+  projects,
+  projectsById,
+  gateways,
+  report,
+  groupedReport,
+  filter,
+}) {
   const { projectId, gatewayId } = filter
 
   if (!report) {
@@ -14,7 +21,13 @@ function Report({ projects, gateways, report, filter }) {
     return <NoResults />
   } else if (!projectId && !gatewayId) {
     // All Projects All Gateways case
-    return <AccordionResults report={report} projects={projects} />
+    return (
+      <AccordionResults
+        report={report}
+        projectsById={projectsById}
+        groupedReport={groupedReport}
+      />
+    )
   } else if (projectId && gatewayId) {
     // Selected Project and Selected Gateway case
     const project = projects.filter((p) => p.projectId === projectId)[0]

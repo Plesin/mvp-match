@@ -5,8 +5,6 @@ import AccordionSummary from '@mui/material/AccordionSummary'
 import Typography from '@mui/material/Typography'
 import Paper from '@mui/material/Paper'
 import { getTotal } from '../../utils'
-import groupBy from 'lodash.groupby'
-import mapKeys from 'lodash.mapKeys'
 import TransactionsTable from '../TransactionsTable'
 
 const paperStyles = {
@@ -17,13 +15,11 @@ const paperStyles = {
   marginTop: '27px',
 }
 
-function AccordionResults({ report, projects }) {
+function AccordionResults({ report, groupedReport, projectsById }) {
   const [expanded, setExpanded] = useState(false)
   const handleChange = (key) => (event, isExpanded) => {
     setExpanded(isExpanded ? key : false)
   }
-  const groupedReport = groupBy(report, 'projectId')
-  const normalizedProjects = mapKeys(projects, 'projectId')
 
   return (
     <>
@@ -32,7 +28,7 @@ function AccordionResults({ report, projects }) {
           All Projects | All Gateways
         </Typography>
         {Object.keys(groupedReport).map((key) => {
-          const name = normalizedProjects[key].name
+          const name = projectsById[key].name
           const payments = groupedReport[key]
           return (
             <Accordion

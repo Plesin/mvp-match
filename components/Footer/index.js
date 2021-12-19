@@ -3,7 +3,7 @@ import Link from '@mui/material/Link'
 
 const sx = { color: '#005B96' }
 
-function Footer({ user }) {
+function Footer() {
   return (
     <Box
       sx={{

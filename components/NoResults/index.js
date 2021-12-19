@@ -10,15 +10,21 @@ function NoResults() {
       justifyContent="center"
       alignItems="center"
     >
-      <Typography variant="h4">No Reports</Typography>
+      <Typography variant="h5">No Reports</Typography>
+      <Typography variant="body1" sx={{ color: '#7E8299' }}>
+        Curently you have no data for the reports to be generated.
+      </Typography>
       <Typography
-        variant="subtitle1"
-        paragraph
-        sx={{ width: '40vw', color: '#7E8299' }}
+        variant="body1"
+        sx={{
+          color: '#7E8299',
+          maxWidth: '32vw',
+          textAlign: 'center',
+          mb: '3rem',
+        }}
       >
-        Curenlty you have no data for the reports to be generated. Once you
-        start generating traffic though the balance application the reporst will
-        be shown.
+        Once you start generating traffic though the balance application the
+        reporst will be shown.
       </Typography>
       <Image src={bg} alt="no reports image" width={402} height={171} />
     </Box>

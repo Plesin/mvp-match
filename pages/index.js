@@ -1,8 +1,10 @@
 import Head from 'next/head'
-import { useState, useEffect } from 'react'
+import { useEffect, useReducer } from 'react'
 import Grid from '@mui/material/Grid'
 import Stack from '@mui/material/Stack'
 import CircularProgress from '@mui/material/CircularProgress'
+import groupBy from 'lodash.groupby'
+import mapKeys from 'lodash.mapKeys'
 
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -10,38 +12,66 @@ import Menu from '../components/Menu'
 import Actions from '../components/Actions'
 import Report from '../components/Report'
 import api from '../utils/api'
+import reducer, {
+  initialState,
+  USER_FETCH_SUCCESS,
+  REPORT_LOADING,
+  PROJECTS_FETCH_SUCCESS,
+  GATEWAYS_FETCH_SUCCESS,
+  REPORT_FETCH_SUCCESS,
+} from '../reducer'
 
 export default function Home() {
-  const [user, setUser] = useState(null)
-  const [projects, setProjects] = useState([])
-  const [gateways, setGateways] = useState([])
-  const [report, setReport] = useState([])
-  const [filter, setFilter] = useState({})
-  const [loading, setLoading] = useState(false)
+  const [state, dispatch] = useReducer(reducer, initialState)
+  const {
+    user,
+    projects,
+    projectsById,
+    gateways,
+    report,
+    groupedReport,
+    filter,
+  } = state
 
   useEffect(() => {
     api('users').then(
-      (response) => setUser(response.data[0]),
+      (response) =>
+        dispatch({ type: USER_FETCH_SUCCESS, payload: response.data[0] }),
       (error) => console.log('api error', error)
     )
 
     api('projects').then(
-      (response) => setProjects(response.data),
+      (response) => {
+        const projects = response.data
+        const projectsById = mapKeys(projects, 'projectId')
+        dispatch({
+          type: PROJECTS_FETCH_SUCCESS,
+          payload: { projects, projectsById },
+        })
+      },
       (error) => console.log('api error', error)
     )
 
     api('gateways').then(
-      (response) => setGateways(response.data),
+      (response) =>
+        dispatch({ type: GATEWAYS_FETCH_SUCCESS, payload: response.data }),
       (error) => console.log('api error', error)
     )
   }, [])
 
   const getReport = async (payload) => {
-    setLoading(true)
+    dispatch({ type: REPORT_LOADING, payload: true })
     const response = await api('report', { body: payload })
-    setLoading(false)
-    setReport(response.data)
-    setFilter(payload)
+    const report = response.data
+    const groupedReport = groupBy(report, 'projectId')
+    dispatch({
+      type: REPORT_FETCH_SUCCESS,
+      payload: {
+        report: report,
+        filter: payload,
+        groupedReport: groupedReport,
+      },
+    })
   }
 
   return (
@@ -63,7 +93,7 @@ export default function Home() {
               gateways={gateways}
               onSubmit={getReport}
             />
-            {loading ? (
+            {state.isLoading ? (
               <Stack alignItems="center">
                 <CircularProgress
                   size="100px"
@@ -74,8 +104,10 @@ export default function Home() {
             ) : (
               <Report
                 projects={projects}
+                projectsById={projectsById}
                 gateways={gateways}
                 report={report}
+                groupedReport={groupedReport}
                 filter={filter}
               />
             )}
