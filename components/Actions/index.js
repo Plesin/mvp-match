@@ -10,46 +10,10 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import DatePicker from '@mui/lab/DatePicker'
 import { useState } from 'react'
 import { format } from 'date-fns'
+import { datePickerStyles, selectStyles } from '../../styles/globals'
 
 const ALL_PROJECTS = 'all-projects'
 const ALL_GATEWAYS = 'all-gateways'
-const datePickerStyles = {
-  input: {
-    backgroundColor: '#1BC5BD',
-    color: 'white',
-    borderRadius: '5px',
-    padding: '5px 8px',
-    width: '80px',
-  },
-  label: {
-    color: 'white',
-    top: '-10px',
-  },
-  button: {
-    borderRadius: 0,
-    border: 'none',
-    color: 'white',
-  },
-  '&.MuiFormControl-root': {
-    backgroundColor: '#1BC5BD',
-    borderRadius: '5px',
-  },
-  fieldset: {
-    border: 'none',
-  },
-}
-
-const selectStyles = {
-  height: '32px',
-  width: '150px',
-  backgroundColor: '#1BC5BD',
-  color: 'white',
-  borderRadius: '5px',
-  padding: '8px 13px',
-  '& .MuiSvgIcon-root': {
-    color: 'white',
-  },
-}
 
 function Actions({ projects, gateways, onSubmit }) {
   const [selectedProject, setSelectedProject] = useState(ALL_PROJECTS)
@@ -76,14 +40,14 @@ function Actions({ projects, gateways, onSubmit }) {
     onSubmit(payload)
   }
 
-  const handleChange = (event) => {
+  const handleProjectChange = (event) => {
     const {
       target: { value },
     } = event
     setSelectedProject(value)
   }
 
-  const handleChange1 = (event) => {
+  const handleGatewayChange = (event) => {
     const {
       target: { value },
     } = event
@@ -96,7 +60,7 @@ function Actions({ projects, gateways, onSubmit }) {
         <Typography variant="h5" sx={{ display: 'block' }}>
           Reports
         </Typography>
-        <Typography variant="hsubtitle1" sx={{ color: '#7E8299' }}>
+        <Typography variant="subtitle1" sx={{ color: '#7E8299' }}>
           Easily generate a report of your transactions
         </Typography>
       </Grid>
@@ -111,7 +75,7 @@ function Actions({ projects, gateways, onSubmit }) {
           <Select
             variant="standard"
             value={selectedProject}
-            onChange={handleChange}
+            onChange={handleProjectChange}
             disableUnderline
             sx={selectStyles}
           >
@@ -129,7 +93,7 @@ function Actions({ projects, gateways, onSubmit }) {
           <Select
             variant="standard"
             value={selectedGateway}
-            onChange={handleChange1}
+            onChange={handleGatewayChange}
             disableUnderline
             sx={selectStyles}
           >
@@ -150,14 +114,13 @@ function Actions({ projects, gateways, onSubmit }) {
               value={fromDate}
               onChange={(val) => {
                 const formated = format(val, 'yyyy-MM-dd')
-                console.log(formated)
                 setFromDate(formated)
               }}
               renderInput={(params) => (
                 <TextField {...params} sx={datePickerStyles} />
               )}
-              inputFormat="dd/MM/yy"
-              mask="mm"
+              maxDate={new Date()}
+              inputFormat="dd/MM/yyyy"
             />
           </LocalizationProvider>
         </FormControl>
@@ -168,14 +131,15 @@ function Actions({ projects, gateways, onSubmit }) {
               value={toDate}
               onChange={(val) => {
                 const formated = format(val, 'yyyy-MM-dd')
-                console.log(formated)
+
                 setToDate(formated)
               }}
               renderInput={(params) => (
                 <TextField {...params} sx={datePickerStyles} />
               )}
-              inputFormat="dd/MM/yy"
-              mask="mm"
+              minDate={new Date(fromDate)}
+              maxDate={new Date()}
+              inputFormat="dd/MM/yyyy"
             />
           </LocalizationProvider>
         </FormControl>

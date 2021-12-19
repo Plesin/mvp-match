@@ -3,6 +3,7 @@ export const initialState = {
   projects: [],
   projectsById: {},
   gateways: [],
+  gatewaysById: {},
   report: [],
   groupedReport: {},
   filter: {},
@@ -28,7 +29,11 @@ export default function reducer(state, action) {
         projectsById: action.payload.projectsById,
       }
     case GATEWAYS_FETCH_SUCCESS:
-      return { ...state, gateways: action.payload }
+      return {
+        ...state,
+        gateways: action.payload.gateways,
+        gatewaysById: action.payload.gatewaysById,
+      }
     case REPORT_FETCH_SUCCESS:
       return {
         ...state,

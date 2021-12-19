@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import Grid from '@mui/material/Grid'
 import Accordion from '@mui/material/Accordion'
 import AccordionDetails from '@mui/material/AccordionDetails'
@@ -11,16 +11,9 @@ import groupBy from 'lodash.groupby'
 import mapKeys from 'lodash.mapKeys'
 import { formatter } from '../../utils/formater'
 import { getTotal, getColor } from '../../utils'
+import { paperStyles } from '../../styles/globals'
 
 import TransactionsTable from '../TransactionsTable'
-
-const paperStyles = {
-  backgroundColor: '#F1FAFE',
-  borderRadius: '10px',
-  boxShadow: 'none',
-  padding: '19px',
-  marginTop: '27px',
-}
 
 const getChartData = (gateways, report) => {
   const labels = []
@@ -48,11 +41,12 @@ const ProjectReport = (props) => {
   const handleChange = (key) => (event, isExpanded) => {
     setExpanded(isExpanded ? key : false)
   }
-  const { report, projects, projectId, gateways, gatewayId } = props
-  const groupedReport = groupBy(report, 'gatewayId')
-  // TODO - do this ones loaded
-  const normalizedGateways = mapKeys(gateways, 'gatewayId')
-  const chartData = getChartData(normalizedGateways, groupedReport)
+  const { report, gateways, gatewaysById } = props
+  const groupedReport = useMemo(() => groupBy(report, 'gatewayId'), [report])
+  const chartData = useMemo(
+    () => getChartData(gatewaysById, groupedReport),
+    [gatewaysById, groupedReport]
+  )
   const totals = chartData.datasets[0].data
   const projectTotal = totals ? totals.reduce((a, b) => a + b, 0) : 0
 
@@ -61,7 +55,7 @@ const ProjectReport = (props) => {
       <Grid item xs={9}>
         <Paper sx={paperStyles}>
           {Object.keys(groupedReport).map((key) => {
-            const name = normalizedGateways[key].name
+            const name = gatewaysById[key].name
             const payments = groupedReport[key]
             return (
               <Accordion

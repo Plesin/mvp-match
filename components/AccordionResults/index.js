@@ -6,14 +6,7 @@ import Typography from '@mui/material/Typography'
 import Paper from '@mui/material/Paper'
 import { getTotal } from '../../utils'
 import TransactionsTable from '../TransactionsTable'
-
-const paperStyles = {
-  backgroundColor: '#F1FAFE',
-  borderRadius: '10px',
-  boxShadow: 'none',
-  padding: '19px',
-  marginTop: '27px',
-}
+import { paperStyles } from '../../styles/globals'
 
 function AccordionResults({ report, groupedReport, projectsById }) {
   const [expanded, setExpanded] = useState(false)
