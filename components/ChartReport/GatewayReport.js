@@ -15,14 +15,14 @@ import { paperStyles } from '../../styles/globals'
 
 import TransactionsTable from '../TransactionsTable'
 
-const getChartData = (gateways, report) => {
+const getChartData = (projects, report) => {
   const labels = []
   const colors = []
   const total = []
-  gateways.allIds.forEach((key) => {
-    labels.push(gateways.byId[key].name)
+  projects.allIds.forEach((key) => {
+    labels.push(projects.byId[key].name)
     colors.push(getColor())
-    total.push(getTotal(report.byGatewayId[key], false))
+    total.push(getTotal(report.byProjectId[key], false))
   })
   return {
     labels,
@@ -36,26 +36,26 @@ const getChartData = (gateways, report) => {
   }
 }
 
-const ProjectReport = (props) => {
-  const { report, gateways } = props
+const GatewayReport = (props) => {
+  const { report, projects } = props
   const [expanded, setExpanded] = useState(false)
   const handleChange = (key) => (event, isExpanded) => {
     setExpanded(isExpanded ? key : false)
   }
   const chartData = useMemo(
-    () => getChartData(gateways, report),
-    [gateways, report]
+    () => getChartData(projects, report),
+    [projects, report]
   )
   const totals = chartData.datasets[0].data
-  const projectTotal = totals ? totals.reduce((a, b) => a + b, 0) : 0
+  const gatewayTotal = totals ? totals.reduce((a, b) => a + b, 0) : 0
 
   return (
     <Grid container columns={16} spacing={3}>
       <Grid item xs={9}>
         <Paper sx={paperStyles}>
-          {gateways.allIds.map((key) => {
-            const name = gateways.byId[key].name
-            const payments = report.byGatewayId[key]
+          {projects.allIds.map((key) => {
+            const name = projects.byId[key].name
+            const payments = report.byProjectId[key]
             return (
               <Accordion
                 key={key}
@@ -96,8 +96,8 @@ const ProjectReport = (props) => {
               alignItems: 'start',
             }}
           >
-            {gateways.allIds.map((key) => {
-              const name = gateways.byId[key].name
+            {projects.allIds.map((key) => {
+              const name = projects.byId[key].name
               return (
                 <>
                   <Box
@@ -130,7 +130,7 @@ const ProjectReport = (props) => {
         </Box>
         <Paper sx={paperStyles}>
           <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-            PROJECT TOTAL | {formatter.format(projectTotal)} USD
+            GATEWAY TOTAL | {formatter.format(gatewayTotal)} USD
           </Typography>
         </Paper>
       </Grid>
@@ -138,4 +138,4 @@ const ProjectReport = (props) => {
   )
 }
 
-export default ProjectReport
+export default GatewayReport

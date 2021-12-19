@@ -1,19 +1,7 @@
 import Grid from '@mui/material/Grid'
 import 'chart.js/auto'
 import ProjectReport from './ProjectReport'
-
-const GatewayReport = (props) => {
-  return (
-    <Grid container columns={16}>
-      <Grid item xs={8}>
-        Table
-      </Grid>
-      <Grid item xs={8}>
-        Chart
-      </Grid>
-    </Grid>
-  )
-}
+import GatewayReport from './GatewayReport'
 
 function ChartReport(props) {
   const { projectId, gatewayId } = props
