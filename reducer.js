@@ -1,11 +1,18 @@
 export const initialState = {
   user: null,
-  projects: [],
-  projectsById: {},
-  gateways: [],
-  gatewaysById: {},
-  report: [],
-  groupedReport: {},
+  projects: {
+    byId: {},
+    allIds: [],
+  },
+  gateways: {
+    byId: {},
+    allIds: [],
+  },
+  report: {
+    byProjectId: {},
+    byGatewayId: {},
+    total: '', // this is formated value
+  },
   filter: {},
   isLoading: false,
 }
@@ -25,14 +32,12 @@ export default function reducer(state, action) {
     case PROJECTS_FETCH_SUCCESS:
       return {
         ...state,
-        projects: action.payload.projects,
-        projectsById: action.payload.projectsById,
+        projects: action.payload,
       }
     case GATEWAYS_FETCH_SUCCESS:
       return {
         ...state,
-        gateways: action.payload.gateways,
-        gatewaysById: action.payload.gatewaysById,
+        gateways: action.payload,
       }
     case REPORT_FETCH_SUCCESS:
       return {
@@ -40,7 +45,6 @@ export default function reducer(state, action) {
         isLoading: false,
         report: action.payload.report,
         filter: action.payload.filter,
-        groupedReport: action.payload.groupedReport,
       }
     default:
       throw new Error(`Uknown action: ${action}.`)

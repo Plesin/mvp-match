@@ -12,6 +12,7 @@ import Menu from '../components/Menu'
 import Actions from '../components/Actions'
 import Report from '../components/Report'
 import api from '../utils/api'
+import { getTotal } from '../utils'
 import reducer, {
   initialState,
   USER_FETCH_SUCCESS,
@@ -23,16 +24,7 @@ import reducer, {
 
 export default function Home() {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const {
-    user,
-    projects,
-    projectsById,
-    gateways,
-    gatewaysById,
-    report,
-    groupedReport,
-    filter,
-  } = state
+  const { user, projects, gateways, report, filter } = state
 
   useEffect(() => {
     api('users').then(
@@ -44,10 +36,11 @@ export default function Home() {
     api('projects').then(
       (response) => {
         const projects = response.data
-        const projectsById = mapKeys(projects, 'projectId')
+        const allIds = projects.map((p) => p.projectId)
+        const byId = mapKeys(projects, 'projectId')
         dispatch({
           type: PROJECTS_FETCH_SUCCESS,
-          payload: { projects, projectsById },
+          payload: { byId, allIds },
         })
       },
       (error) => console.log('api error', error)
@@ -56,10 +49,11 @@ export default function Home() {
     api('gateways').then(
       (response) => {
         const gateways = response.data
-        const gatewaysById = mapKeys(gateways, 'gatewayId')
+        const allIds = gateways.map((g) => g.gatewayId)
+        const byId = mapKeys(gateways, 'gatewayId')
         dispatch({
           type: GATEWAYS_FETCH_SUCCESS,
-          payload: { gateways, gatewaysById },
+          payload: { byId, allIds },
         })
       },
       (error) => console.log('api error', error)
@@ -70,13 +64,17 @@ export default function Home() {
     dispatch({ type: REPORT_LOADING, payload: true })
     const response = await api('report', { body: payload })
     const report = response.data
-    const groupedReport = groupBy(report, 'projectId')
+    const byProjectId = groupBy(report, 'projectId')
+    const byGatewayId = groupBy(report, 'gatewayId')
     dispatch({
       type: REPORT_FETCH_SUCCESS,
       payload: {
-        report: report,
+        report: {
+          byProjectId,
+          byGatewayId,
+          total: getTotal(report, true),
+        },
         filter: payload,
-        groupedReport: groupedReport,
       },
     })
   }
@@ -111,11 +109,8 @@ export default function Home() {
             ) : (
               <Report
                 projects={projects}
-                projectsById={projectsById}
                 gateways={gateways}
-                gatewaysById={gatewaysById}
                 report={report}
-                groupedReport={groupedReport}
                 filter={filter}
               />
             )}

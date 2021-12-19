@@ -82,11 +82,14 @@ function Actions({ projects, gateways, onSubmit }) {
             <MenuItem key={ALL_PROJECTS} value={ALL_PROJECTS}>
               All Projects
             </MenuItem>
-            {projects.map((project) => (
-              <MenuItem key={project.projectId} value={project.projectId}>
-                {project.name}
-              </MenuItem>
-            ))}
+            {projects.allIds.map((key) => {
+              const project = projects.byId[key]
+              return (
+                <MenuItem key={project.projectId} value={project.projectId}>
+                  {project.name}
+                </MenuItem>
+              )
+            })}
           </Select>
         </FormControl>
         <FormControl>
@@ -100,11 +103,14 @@ function Actions({ projects, gateways, onSubmit }) {
             <MenuItem key={ALL_GATEWAYS} value={ALL_GATEWAYS}>
               All Gateways
             </MenuItem>
-            {gateways.map((gat) => (
-              <MenuItem key={gat.gatewayId} value={gat.gatewayId}>
-                {gat.name}
-              </MenuItem>
-            ))}
+            {gateways.allIds.map((key) => {
+              const gateway = gateways.byId[key]
+              return (
+                <MenuItem key={gateway.gatewayId} value={gateway.gatewayId}>
+                  {gateway.name}
+                </MenuItem>
+              )
+            })}
           </Select>
         </FormControl>
         <FormControl>
