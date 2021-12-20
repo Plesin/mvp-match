@@ -14,8 +14,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## TODOs
 
-1. useReducer hook or redux for state
-2. data normalization after load, currenlty in some components
+1. <s>useReducer hook or redux for state</s>
+2. <s>data normalization after load, currenlty in some components</s>
 3. global theme overrides for MUI components
-4. Table could be a single generic component
+4. <s>Table could be a single generic component</s>
 5. Error handling for api calls

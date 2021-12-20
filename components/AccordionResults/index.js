@@ -6,7 +6,11 @@ import Typography from '@mui/material/Typography'
 import Paper from '@mui/material/Paper'
 import { getTotal } from '../../utils'
 import TransactionsTable from '../TransactionsTable'
-import { paperStyles } from '../../styles/globals'
+import {
+  paperStyles,
+  accordionStyles,
+  accordionSummaryStyles,
+} from '../../styles/globals'
 
 function AccordionResults({ report, projects }) {
   const [expanded, setExpanded] = useState(false)
@@ -28,19 +32,19 @@ function AccordionResults({ report, projects }) {
               key={key}
               expanded={expanded === key}
               onChange={handleChange(key)}
-              sx={{
-                marginBottom: '1rem',
-                boxShadow: 'none',
-              }}
+              sx={accordionStyles}
             >
               <AccordionSummary
                 aria-controls={`${name}-content`}
                 id={`${name}-header`}
-                sx={{
-                  borderRadius: '18px',
-                }}
+                sx={accordionSummaryStyles}
               >
-                <Typography sx={{ flexGrow: 1 }}>{name}</Typography>
+                <Typography
+                  variant="subtitle1"
+                  sx={{ flexGrow: 1, fontWeight: 'bold' }}
+                >
+                  {name}
+                </Typography>
                 <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
                   TOTAL: {getTotal(payments, true)} USD
                 </Typography>
