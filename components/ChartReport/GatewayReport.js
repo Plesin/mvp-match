@@ -96,8 +96,9 @@ const GatewayReport = (props) => {
               alignItems: 'start',
             }}
           >
-            {projects.allIds.map((key) => {
+            {projects.allIds.map((key, index) => {
               const name = projects.byId[key].name
+              const color = chartData.datasets[0].backgroundColor[index]
               return (
                 <>
                   <Box
@@ -105,7 +106,7 @@ const GatewayReport = (props) => {
                     sx={{
                       width: '15px',
                       height: '15px',
-                      backgroundColor: 'magenta',
+                      backgroundColor: color,
                       borderRadius: '5px',
                       margin: '5px 10px',
                     }}

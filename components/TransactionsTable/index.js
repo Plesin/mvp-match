@@ -4,6 +4,8 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
+import { format } from 'date-fns'
+import { UI_DATE_FORMAT } from '../../constants'
 
 function TransactionsTable({ rows, gatewayType }) {
   const minWidth = gatewayType ? 'auto' : 650
@@ -31,7 +33,9 @@ function TransactionsTable({ rows, gatewayType }) {
                 '&:nth-of-type(even)': { backgroundColor: 'white' },
               }}
             >
-              <TableCell align="left">{row.created}</TableCell>
+              <TableCell align="left">
+                {format(new Date(row.created), UI_DATE_FORMAT)}
+              </TableCell>
               {gatewayType && (
                 <TableCell align="left">{row.gatewayId}</TableCell>
               )}
