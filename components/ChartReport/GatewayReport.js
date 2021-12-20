@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, Fragment } from 'react'
 import Grid from '@mui/material/Grid'
 import Accordion from '@mui/material/Accordion'
 import AccordionDetails from '@mui/material/AccordionDetails'
@@ -11,7 +11,11 @@ import 'chart.js/auto'
 import { Doughnut } from 'react-chartjs-2'
 import { formatter } from '../../utils/formater'
 import { getTotal, getColor } from '../../utils'
-import { paperStyles } from '../../styles/globals'
+import {
+  paperStyles,
+  accordionStyles,
+  accordionSummaryStyles,
+} from '../../styles/globals'
 
 import TransactionsTable from '../TransactionsTable'
 
@@ -61,19 +65,19 @@ const GatewayReport = (props) => {
                 key={key}
                 expanded={expanded === key}
                 onChange={handleChange(key)}
-                sx={{
-                  marginBottom: '1rem',
-                  boxShadow: 'none',
-                }}
+                sx={accordionStyles}
               >
                 <AccordionSummary
                   aria-controls={`${name}-content`}
                   id={`${name}-header`}
-                  sx={{
-                    borderRadius: '18px',
-                  }}
+                  sx={accordionSummaryStyles}
                 >
-                  <Typography sx={{ flexGrow: 1 }}>{name}</Typography>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ flexGrow: 1, fontWeight: 'bold' }}
+                  >
+                    {name}
+                  </Typography>
                   <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
                     TOTAL: {getTotal(payments, true)} USD
                   </Typography>
@@ -100,7 +104,7 @@ const GatewayReport = (props) => {
               const name = projects.byId[key].name
               const color = chartData.datasets[0].backgroundColor[index]
               return (
-                <>
+                <Fragment key={key}>
                   <Box
                     key={key}
                     sx={{
@@ -112,7 +116,7 @@ const GatewayReport = (props) => {
                     }}
                   ></Box>
                   <Typography variant="subtitle1">{name}</Typography>
-                </>
+                </Fragment>
               )
             })}
           </Stack>

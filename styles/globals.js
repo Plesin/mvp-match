@@ -43,3 +43,25 @@ export const selectStyles = {
     color: 'white',
   },
 }
+
+export const accordionStyles = {
+  marginBottom: '1rem',
+  '&:last-child': {
+    marginBottom: 0,
+  },
+  boxShadow: 'none',
+  borderRadius: '10px',
+  '&.MuiPaper-root': { borderRadius: '10px' },
+  '&.MuiPaper-root::before': {
+    display: 'none',
+  },
+}
+
+export const accordionSummaryStyles = {
+  padding: 0,
+  '& .MuiAccordionSummary-content': {
+    margin: 0,
+    padding: '26px 24px',
+    '& .MuiAccordionSummary-content': { margin: 0 },
+  },
+}
