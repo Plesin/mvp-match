@@ -10,6 +10,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import DatePicker from '@mui/lab/DatePicker'
 import { useState } from 'react'
 import { format } from 'date-fns'
+import { UI_DATE_FORMAT, API_DATE_FORMAT } from '../../constants'
 import { datePickerStyles, selectStyles } from '../../styles/globals'
 
 const ALL_PROJECTS = 'all-projects'
@@ -119,14 +120,14 @@ function Actions({ projects, gateways, onSubmit }) {
               label="From Date"
               value={fromDate}
               onChange={(val) => {
-                const formated = format(val, 'yyyy-MM-dd')
+                const formated = format(val, API_DATE_FORMAT)
                 setFromDate(formated)
               }}
               renderInput={(params) => (
                 <TextField {...params} sx={datePickerStyles} />
               )}
               maxDate={new Date()}
-              inputFormat="dd/MM/yyyy"
+              inputFormat={UI_DATE_FORMAT}
             />
           </LocalizationProvider>
         </FormControl>
@@ -136,7 +137,7 @@ function Actions({ projects, gateways, onSubmit }) {
               label="To Date"
               value={toDate}
               onChange={(val) => {
-                const formated = format(val, 'yyyy-MM-dd')
+                const formated = format(val, API_DATE_FORMAT)
 
                 setToDate(formated)
               }}
@@ -145,7 +146,7 @@ function Actions({ projects, gateways, onSubmit }) {
               )}
               minDate={new Date(fromDate)}
               maxDate={new Date()}
-              inputFormat="dd/MM/yyyy"
+              inputFormat={UI_DATE_FORMAT}
             />
           </LocalizationProvider>
         </FormControl>
