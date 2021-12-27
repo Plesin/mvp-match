@@ -10,6 +10,7 @@ import {
   paperStyles,
   accordionStyles,
   accordionSummaryStyles,
+  accordionDetailsStyles,
 } from '../../styles/globals'
 
 function AccordionResults({ report, projects }) {
@@ -49,7 +50,7 @@ function AccordionResults({ report, projects }) {
                   TOTAL: {getTotal(payments, true)} USD
                 </Typography>
               </AccordionSummary>
-              <AccordionDetails>
+              <AccordionDetails sx={accordionDetailsStyles}>
                 <TransactionsTable rows={payments} gatewayType />
               </AccordionDetails>
             </Accordion>

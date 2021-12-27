@@ -11,6 +11,7 @@ import Footer from '../components/Footer'
 import Menu from '../components/Menu'
 import Actions from '../components/Actions'
 import Report from '../components/Report'
+import Toaster from '../components/Toaster'
 import api from '../utils/api'
 import { getTotal } from '../utils'
 import reducer, {
@@ -20,17 +21,22 @@ import reducer, {
   PROJECTS_FETCH_SUCCESS,
   GATEWAYS_FETCH_SUCCESS,
   REPORT_FETCH_SUCCESS,
+  API_ERROR,
 } from '../reducer'
+import { ERROR_MESSAGE } from '../constants'
 
 export default function Home() {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const { user, projects, gateways, report, filter } = state
+  const { user, projects, gateways, report, filter, apiError } = state
+  const apiErorrHanlder = (error) => {
+    dispatch({ type: API_ERROR, payload: error })
+  }
 
   useEffect(() => {
     api('users').then(
       (response) =>
         dispatch({ type: USER_FETCH_SUCCESS, payload: response.data[0] }),
-      (error) => console.log('api error', error)
+      (error) => apiErorrHanlder
     )
 
     api('projects').then(
@@ -43,21 +49,18 @@ export default function Home() {
           payload: { byId, allIds },
         })
       },
-      (error) => console.log('api error', error)
+      (error) => apiErorrHanlder
     )
 
-    api('gateways').then(
-      (response) => {
-        const gateways = response.data
-        const allIds = gateways.map((g) => g.gatewayId)
-        const byId = mapKeys(gateways, 'gatewayId')
-        dispatch({
-          type: GATEWAYS_FETCH_SUCCESS,
-          payload: { byId, allIds },
-        })
-      },
-      (error) => console.log('api error', error)
-    )
+    api('gateways').then((response) => {
+      const gateways = response.data
+      const allIds = gateways.map((g) => g.gatewayId)
+      const byId = mapKeys(gateways, 'gatewayId')
+      dispatch({
+        type: GATEWAYS_FETCH_SUCCESS,
+        payload: { byId, allIds },
+      })
+    }, apiErorrHanlder)
   }, [])
 
   const getReport = async (payload) => {
@@ -88,6 +91,9 @@ export default function Home() {
       </div>
       <main>
         <Header user={user} />
+        {apiError && (
+          <Toaster type={ERROR_MESSAGE} message={apiError.message} />
+        )}
         <Grid container columns={16}>
           <Grid item xs={1}>
             <Menu />
