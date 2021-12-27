@@ -82,7 +82,7 @@ const GatewayReport = (props) => {
                     TOTAL: {getTotal(payments, true)} USD
                   </Typography>
                 </AccordionSummary>
-                <AccordionDetails>
+                <AccordionDetails sx={accordionDetailsStyles}>
                   <TransactionsTable rows={payments} />
                 </AccordionDetails>
               </Accordion>

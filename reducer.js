@@ -15,6 +15,7 @@ export const initialState = {
   },
   filter: {},
   isLoading: false,
+  apiError: null,
 }
 
 export const USER_FETCH_SUCCESS = 'USER_FETCH_SUCCESS'
@@ -22,6 +23,7 @@ export const PROJECTS_FETCH_SUCCESS = 'PROJECTS_FETCH_SUCCESS'
 export const GATEWAYS_FETCH_SUCCESS = 'GATEWAYS_FETCH_SUCCESS'
 export const REPORT_FETCH_SUCCESS = 'REPORT_FETCH_SUCCESS'
 export const REPORT_LOADING = 'REPORT_LOADING'
+export const API_ERROR = 'API_ERROR'
 
 export default function reducer(state, action) {
   switch (action.type) {
@@ -46,6 +48,13 @@ export default function reducer(state, action) {
         report: action.payload.report,
         filter: action.payload.filter,
       }
+    case API_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        apiError: action.payload,
+      }
+
     default:
       throw new Error(`Uknown action: ${action}.`)
   }

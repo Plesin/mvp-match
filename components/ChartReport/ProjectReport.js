@@ -15,6 +15,7 @@ import {
   paperStyles,
   accordionStyles,
   accordionSummaryStyles,
+  accordionDetailsStyles,
 } from '../../styles/globals'
 
 import TransactionsTable from '../TransactionsTable'
@@ -82,7 +83,7 @@ const ProjectReport = (props) => {
                     TOTAL: {getTotal(payments, true)} USD
                   </Typography>
                 </AccordionSummary>
-                <AccordionDetails>
+                <AccordionDetails sx={accordionDetailsStyles}>
                   <TransactionsTable rows={payments} />
                 </AccordionDetails>
               </Accordion>

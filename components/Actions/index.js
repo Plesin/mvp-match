@@ -137,8 +137,8 @@ function Actions({ projects, gateways, onSubmit }) {
               label="To Date"
               value={toDate}
               onChange={(val) => {
+                // TODO - fix for manual input change
                 const formated = format(val, API_DATE_FORMAT)
-
                 setToDate(formated)
               }}
               renderInput={(params) => (

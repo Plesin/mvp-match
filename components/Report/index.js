@@ -1,22 +1,8 @@
-import Snackbar from '@mui/material/Snackbar'
 import NoResults from '../NoResults'
 import TableReport from '../TableReport'
 import ChartReport from '../ChartReport'
 import AccordionResults from '../AccordionResults'
-
-const Toaster = ({ message }) => (
-  <Snackbar
-    anchorOrigin={{
-      vertical: 'top',
-      horizontal: 'center',
-    }}
-    open={true}
-    message={message}
-    sx={{
-      '& .MuiPaper-root': { backgroundColor: '#F6CA65', color: 'black' },
-    }}
-  />
-)
+import Toaster from '../Toaster'
 
 function Report({ projects, gateways, report, filter }) {
   const { projectId, gatewayId, from, to } = filter

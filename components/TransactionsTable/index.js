@@ -6,13 +6,17 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import { format } from 'date-fns'
 import { UI_DATE_FORMAT } from '../../constants'
+import { tableStyles, tableRowStyles } from '../../styles/globals'
 
 function TransactionsTable({ rows, gatewayType }) {
   const minWidth = gatewayType ? 'auto' : 650
   return (
     <TableContainer>
       <Table
-        sx={{ minWidth, '& th': { border: 0, padding: '8px' } }}
+        sx={{
+          minWidth,
+          ...tableStyles,
+        }}
         aria-label="transations table"
       >
         <TableHead>
@@ -25,14 +29,7 @@ function TransactionsTable({ rows, gatewayType }) {
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <TableRow
-              key={row.paymentId}
-              sx={{
-                '& td': { border: 0, padding: '8px', fontSize: '1rem' },
-                '&:nth-of-type(odd)': { backgroundColor: '#F1FAFE' },
-                '&:nth-of-type(even)': { backgroundColor: 'white' },
-              }}
-            >
+            <TableRow key={row.paymentId} sx={tableRowStyles}>
               <TableCell align="left">
                 {format(new Date(row.created), UI_DATE_FORMAT)}
               </TableCell>
