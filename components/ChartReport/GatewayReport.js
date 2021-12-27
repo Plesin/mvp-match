@@ -15,6 +15,7 @@ import {
   paperStyles,
   accordionStyles,
   accordionSummaryStyles,
+  accordionDetailsStyles,
 } from '../../styles/globals'
 
 import TransactionsTable from '../TransactionsTable'
