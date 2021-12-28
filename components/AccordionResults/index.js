@@ -18,7 +18,7 @@ function AccordionResults({ report, projects }) {
   const handleChange = (key) => (event, isExpanded) => {
     setExpanded(isExpanded ? key : false)
   }
-  console.log('CLOG-AAA', report, projects)
+
   return (
     <>
       <Paper sx={paperStyles}>
