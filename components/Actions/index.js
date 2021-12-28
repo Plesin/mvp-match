@@ -10,6 +10,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider'
 import DatePicker from '@mui/lab/DatePicker'
 import { useState } from 'react'
 import { format } from 'date-fns'
+import Toaster from '../Toaster'
 import { UI_DATE_FORMAT, API_DATE_FORMAT } from '../../constants'
 import { datePickerStyles, selectStyles } from '../../styles/globals'
 
@@ -20,27 +21,26 @@ function Actions({ projects, gateways, onSubmit }) {
   const [selectedProject, setSelectedProject] = useState(ALL_PROJECTS)
   const [selectedGateway, setSelectedGateway] = useState(ALL_GATEWAYS)
   const [fromDate, setFromDate] = useState(null)
-  const [fromDateInvalid, setFromDateInvalid] = useState(null)
+  const [fromDateError, setFromDateError] = useState(null)
   const [toDate, setToDate] = useState(null)
-  const [toDateInvalid, setToDateInvalid] = useState(null)
+  const [toDateError, setToDateError] = useState(null)
 
   const getFormatedDate = () => {
     let from = fromDate
     let to = toDate
-    if (fromDate && fromDateInvalid === null) {
+    if (fromDate && fromDateError === null) {
       from = format(fromDate, API_DATE_FORMAT)
-    } else {
-      from = null // some validation didn't pass, minDate, maxDate etc, so we pass null
     }
-    if (toDate && toDateInvalid === null) {
+    if (toDate && toDateError === null) {
       to = format(toDate, API_DATE_FORMAT)
-    } else {
-      to = null // some validation didn't pass, minDate, maxDate etc, so we pass null
     }
     return { from, to }
   }
 
   const generateReport = () => {
+    if (fromDateError || toDateError) {
+      return
+    }
     const { from, to } = getFormatedDate()
     const payload = {
       from,
@@ -73,6 +73,9 @@ function Actions({ projects, gateways, onSubmit }) {
 
   return (
     <Grid container columns={16}>
+      {fromDateError || toDateError ? (
+        <Toaster message="Please enter a valid date" />
+      ) : null}
       <Grid item xs={4}>
         <Typography variant="h5" sx={{ display: 'block' }}>
           Reports
@@ -138,7 +141,7 @@ function Actions({ projects, gateways, onSubmit }) {
               onChange={(val) => {
                 setFromDate(val)
               }}
-              onError={(error) => setFromDateInvalid(error)}
+              onError={(error) => setFromDateError(error)}
               renderInput={(params) => (
                 <TextField {...params} sx={datePickerStyles} />
               )}
@@ -155,7 +158,7 @@ function Actions({ projects, gateways, onSubmit }) {
               onChange={(val) => {
                 setToDate(val)
               }}
-              onError={(error) => setToDateInvalid(error)}
+              onError={(error) => setToDateError(error)}
               renderInput={(params) => (
                 <TextField {...params} sx={datePickerStyles} />
               )}
