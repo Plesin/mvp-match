@@ -28,6 +28,10 @@ function AccordionResults({ report, projects }) {
         {projects.allIds.map((key) => {
           const name = projects.byId[key].name
           const payments = report.byProjectId[key]
+          if (!Array.isArray(payments)) {
+            return null
+          }
+
           return (
             <Accordion
               key={key}

@@ -27,4 +27,8 @@ export default function api(endpoint, { body, ...customConfig } = {}) {
         return Promise.reject(new Error(errorMessage))
       }
     })
+    .catch((error) => {
+      const errorMessage = error.message
+      return Promise.reject(new Error(errorMessage))
+    })
 }

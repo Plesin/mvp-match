@@ -61,6 +61,9 @@ const ProjectReport = (props) => {
           {gateways.allIds.map((key) => {
             const name = gateways.byId[key].name
             const payments = report.byGatewayId[key]
+            if (!Array.isArray(payments)) {
+              return null
+            }
             return (
               <Accordion
                 key={key}
@@ -104,6 +107,10 @@ const ProjectReport = (props) => {
             {gateways.allIds.map((key, index) => {
               const name = gateways.byId[key].name
               const color = chartData.datasets[0].backgroundColor[index]
+              const payments = report.byGatewayId[key]
+              if (!Array.isArray(payments)) {
+                return null
+              }
               return (
                 <Fragment key={key}>
                   <Box

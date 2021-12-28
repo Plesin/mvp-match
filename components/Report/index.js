@@ -12,7 +12,7 @@ function Report({ projects, gateways, report, filter }) {
 
   if ((from && !to) || (!from && to)) {
     return (
-      <Toaster message="Please select both From Date and To Date to filter reports by date." />
+      <Toaster message="Please select valid From Date and To Date to filter reports by date." />
     )
   }
 
