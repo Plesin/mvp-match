@@ -20,15 +20,31 @@ function Actions({ projects, gateways, onSubmit }) {
   const [selectedProject, setSelectedProject] = useState(ALL_PROJECTS)
   const [selectedGateway, setSelectedGateway] = useState(ALL_GATEWAYS)
   const [fromDate, setFromDate] = useState(null)
+  const [fromDateInvalid, setFromDateInvalid] = useState(null)
   const [toDate, setToDate] = useState(null)
+  const [toDateInvalid, setToDateInvalid] = useState(null)
+
+  const getFormatedDate = () => {
+    let from = fromDate
+    let to = toDate
+    if (fromDate && fromDateInvalid === null) {
+      from = format(fromDate, API_DATE_FORMAT)
+    } else {
+      from = null // some validation didn't pass, minDate, maxDate etc, so we pass null
+    }
+    if (toDate && toDateInvalid === null) {
+      to = format(toDate, API_DATE_FORMAT)
+    } else {
+      to = null // some validation didn't pass, minDate, maxDate etc, so we pass null
+    }
+    return { from, to }
+  }
 
   const generateReport = () => {
-    if (!fromDate && !toDate) {
-      // alert('Please select date range')
-    }
+    const { from, to } = getFormatedDate()
     const payload = {
-      from: fromDate,
-      to: toDate,
+      from,
+      to,
       projectId: selectedProject,
       gatewayId: selectedGateway,
     }
@@ -120,9 +136,9 @@ function Actions({ projects, gateways, onSubmit }) {
               label="From Date"
               value={fromDate}
               onChange={(val) => {
-                const formated = format(val, API_DATE_FORMAT)
-                setFromDate(formated)
+                setFromDate(val)
               }}
+              onError={(error) => setFromDateInvalid(error)}
               renderInput={(params) => (
                 <TextField {...params} sx={datePickerStyles} />
               )}
@@ -137,10 +153,9 @@ function Actions({ projects, gateways, onSubmit }) {
               label="To Date"
               value={toDate}
               onChange={(val) => {
-                // TODO - fix for manual input change
-                const formated = format(val, API_DATE_FORMAT)
-                setToDate(formated)
+                setToDate(val)
               }}
+              onError={(error) => setToDateInvalid(error)}
               renderInput={(params) => (
                 <TextField {...params} sx={datePickerStyles} />
               )}

@@ -1,8 +1,6 @@
 import Head from 'next/head'
 import { useEffect, useReducer } from 'react'
 import Grid from '@mui/material/Grid'
-import Stack from '@mui/material/Stack'
-import CircularProgress from '@mui/material/CircularProgress'
 import groupBy from 'lodash.groupby'
 import mapKeys from 'lodash.mapKeys'
 
@@ -12,6 +10,7 @@ import Menu from '../components/Menu'
 import Actions from '../components/Actions'
 import Report from '../components/Report'
 import Toaster from '../components/Toaster'
+import Loader from '../components/Loader'
 import api from '../utils/api'
 import { getTotal } from '../utils'
 import reducer, {
@@ -36,7 +35,7 @@ export default function Home() {
     api('users').then(
       (response) =>
         dispatch({ type: USER_FETCH_SUCCESS, payload: response.data[0] }),
-      (error) => apiErorrHanlder
+      () => apiErorrHanlder
     )
 
     api('projects').then(
@@ -49,7 +48,7 @@ export default function Home() {
           payload: { byId, allIds },
         })
       },
-      (error) => apiErorrHanlder
+      () => apiErorrHanlder
     )
 
     api('gateways').then((response) => {
@@ -105,13 +104,7 @@ export default function Home() {
               onSubmit={getReport}
             />
             {state.isLoading ? (
-              <Stack alignItems="center">
-                <CircularProgress
-                  size="100px"
-                  thickness={1}
-                  sx={{ mt: '10%' }}
-                />
-              </Stack>
+              <Loader />
             ) : (
               <Report
                 projects={projects}
